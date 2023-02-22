@@ -1,3 +1,4 @@
 */.exercism/*
 */.stack-work/*
 *.lock
+*.cabal
