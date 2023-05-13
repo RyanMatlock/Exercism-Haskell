@@ -8,4 +8,5 @@ square n
   | otherwise = Nothing
 
 total :: Integer
-total = sum $ map fromMaybe $ map square [1..64]
+total = sum $ map (fromMaybe 0) $ map square [1..64]
+

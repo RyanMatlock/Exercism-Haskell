@@ -1,0 +1,29 @@
+#+title: Grains
+
+* GHCi testing
+
+#+begin_src haskell
+  ghci> map square [1..5]
+  [Just 1,Just 2,Just 4,Just 8,Just 16]
+
+  ghci> sub1 n = n - 1
+  ghci> sum $ map sub1 [1..5]
+  10
+
+  ghci> sum $ map square [1..5]
+  <interactive>:71:1: error:
+      • No instance for (Num (Maybe Integer)) arising from a use of ‘sum’
+      • In the first argument of ‘($)’, namely ‘sum’
+        In the expression: sum $ map square [1 .. 5]
+        In an equation for ‘it’: it = sum $ map square [1 .. 5]
+#+end_src
+
+* =total=
+I struggled with this for the longest time. I knew I needed to =map= =fromMaybe=
+onto a list of =Maybe Integer=​s, but it turns out the right way to do that is
+curry the default value of =fromMaybe= using parentheses like this:
+
+#+begin_src haskell
+  total :: Integer
+  total = sum $ map (fromMaybe 0) $ map square [1..64]
+#+end_src
