@@ -1,0 +1,8 @@
+These are my solutions to [[https://exercism.org/][Exercism]]'s [[https://exercism.org/tracks/haskell/exercises][Haskell exercises]]. For ease of future
+reference, I've kept some dead code and GHCi REPL activity in the main branch
+instead of buried in the commit history.
+
+I've taken a stab at learning Haskell a few times in the past, but it feels
+like I'm starting from scratch. Although I feel better prepared from
+working with Lisp a little, it's likely that this won't be the cleanest Haskell
+you've ever seen.
