@@ -1,0 +1,29 @@
+#+title: Collatz Conjecture
+
+* First solution
+
+#+begin_src haskell
+  import Data.Maybe (fromMaybe)
+
+  collatz :: Integer -> Maybe Integer
+  collatz n
+    | n < 1 = Nothing
+    | n == 1 = Just 0
+    | mod n 2 == 0 = Just $ (+) 1 $ fromMaybe 0 $ collatz $ n `div` 2
+    | otherwise = Just $ (+) 1 $ fromMaybe 0 $ collatz $ (3 * n) + 1
+#+end_src
+
+But that's a little ugly. Let's see how we can improve it.
+
+First of all, [[https://stackoverflow.com/a/14635050][we can use =succ= to increment a number by 1]]. +We can also clean
+things up with parentheses.+ Actually, =$= makes things pretty clear, so the new
+solution is =Just= (🙃)
+
+#+begin_src haskell
+  collatz :: Integer -> Maybe Integer
+  collatz n
+    | n < 1 = Nothing
+    | n == 1 = Just 0
+    | mod n 2 == 0 = Just $ succ $ fromMaybe 0 $ collatz $ n `div` 2
+    | otherwise = Just $ succ $ fromMaybe 0 $ collatz $ (3 * n) + 1
+#+end_src
