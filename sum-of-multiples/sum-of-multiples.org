@@ -1,3 +1,4 @@
+#+options: ^:{}
 #+title: Sum of Multiples
 
 * GHCi experimentation
@@ -104,3 +105,14 @@ Note that
 #+end_src
 
 works too.
+
+* Specifying internal methods
+See [[https://stackoverflow.com/a/14379426][Function privacy and unit testing Haskell | stackoverflow]], although it
+appears that I can't do something like
+
+#+begin_src haskell
+  module SumOfMultiples (sumOfMultiples) where
+  module SumOfMultiples.Internal (multiplesBelow) where
+#+end_src
+
+which is what I thought based on that answer. ¯\_(ツ)_/¯
