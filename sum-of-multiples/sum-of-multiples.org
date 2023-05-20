@@ -1,0 +1,35 @@
+#+title: Sum of Multiples
+
+* GHCi experimentation
+
+#+begin_src haskell
+  ghci> takeWhile (\x -> x < 20) $ map ((*) 3) [1..]
+  [3,6,9,12,15,18]
+  ghci> import Data.List
+  ghci> union [1,2,3] [2,4,6]
+  [1,2,3,4,6]
+  ghci> foldl union [] [[1,2,3], [2,4,6], [1,2,4,8]]
+  [1,2,3,4,6,8]
+#+end_src
+
+* First iteration
+This passes:
+
+#+begin_src haskell
+  module SumOfMultiples (sumOfMultiples) where
+
+  import Data.List (union)
+
+  multiplesBelow :: Integer -> Integer -> [Integer]
+  multiplesBelow _ 0 = [0]
+  multiplesBelow limit n = takeWhile (\x -> x < limit) $ map ((*) n) [1..]
+
+  uniqueMultiples :: [[Integer]] -> [Integer]
+  uniqueMultiples nss = foldl union [] nss
+
+  sumOfMultiples :: [Integer] -> Integer -> Integer
+  sumOfMultiples factors limit =
+    sum $ uniqueMultiples $ map (multiplesBelow limit) factors
+#+end_src
+
+But I can probably improve that with =where= or =let= expressions.
