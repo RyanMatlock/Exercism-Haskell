@@ -33,3 +33,74 @@ This passes:
 #+end_src
 
 But I can probably improve that with =where= or =let= expressions.
+
+* ~lsp-haskell~ admonitions
+Ooh, I have ~lsp-haskell~ working now, so let's follow its advice.
+** Don't use =lambda= infix
+=(\x -> x < limit)= \to =((>) limit)=.
+
+** Use section
+=((>) limit)= \to =(limit >)=
+
+=((*) n)= \to =(n *)=
+
+** Eta reduce
+
+#+begin_src haskell
+  uniqueMultiples nss = foldl union [] nss
+#+end_src
+
+[[https://wiki.haskell.org/Eta_conversion][Eta conversion | Haskell wiki]]
+
+Oh, I bet if I take out the =nss= argument, it'll mean the same thing.
+
+Yep!
+
+#+begin_src haskell
+  uniqueMultiples = foldl union []
+#+end_src
+
+This is going to break my brain (in a good way).
+
+* Using =where=
+This passes:
+
+#+begin_src haskell
+  import Data.List (union)
+
+  multiplesBelow :: Integer -> Integer -> [Integer]
+  multiplesBelow _ 0 = [0]
+  multiplesBelow limit n = takeWhile (limit >) $ map (n *) [1..]
+
+  sumOfMultiples :: [Integer] -> Integer -> Integer
+  sumOfMultiples factors limit =
+    sum $ uniqueMultiples $ map (multiplesBelow limit) factors
+    where
+      uniqueMultiples = foldl union []
+#+end_src
+
+This also passes, but it's giving me a warning about =limit= name shadowing:
+
+#+begin_src haskell
+  import Data.List (union)
+
+  sumOfMultiples :: [Integer] -> Integer -> Integer
+  sumOfMultiples factors limit =
+    sum $ uniqueMultiples $ map (multiplesBelow limit) factors
+    where
+      uniqueMultiples = foldl union []
+      multiplesBelow _ 0 = [0]
+      multiplesBelow limit n = takeWhile (limit >) $ map (n *) [1..]
+#+end_src
+
+So I guess I'll go with the first one.
+
+Note that
+
+#+begin_src haskell
+  multiplesBelow :: Integer -> Integer -> [Integer]
+  multiplesBelow _ 0 = []
+  multiplesBelow limit n = takeWhile (limit >) $ map (n *) [1..]
+#+end_src
+
+works too.
